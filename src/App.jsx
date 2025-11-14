@@ -3,13 +3,14 @@
 import { Routes, Route } from 'react-router'; // Import React Router
 
 import NavBar from './components/NavBar/NavBar';
-// Import the SignUpForm component
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
 import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
+import Course from './components/Course/Course';
 import { useContext } from 'react';
 import { UserContext } from './contexts/UserContext';
+import CourseDetails from './components/CourseDetails/CourseDetails';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -33,6 +34,8 @@ const App = () => {
         }
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
+        <Route path='/new' element={<Course />} />
+        <Route path='/courses/:id' element={<CourseDetails />} />
       </Routes>
     </>
   );
