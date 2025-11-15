@@ -1,33 +1,42 @@
-import { useParams } from "react-router";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { courseService } from "../../../services/courseService";
 
 const CourseDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
+  const [error, setError] = useState (' ');
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:3000/courses/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          },
-        });
+        
+        const data = await courseService.getCourse(id);
+        setCourse(data); 
 
-        if (!res.ok) throw new Error("Failed to load course details");
-
-        const data = await res.json();
-        setCourse(data);
       } catch (err) {
+
         console.error(err);
+        setError('Failed to load course');
       }
     };
 
     fetchCourse();
   }, [id]);
+
+  const handleDelete = async (event) => {
+    try{
+      event.preventDefault();
+      await courseService.deleteCourse(id);
+      navigate('/');
+      
+    } catch (err){
+      console.error(err);
+      setError('Failed to delete course')
+    }
+
+  }
 
   if (!course) return <p>Loading course details...</p>;
 
@@ -46,9 +55,8 @@ const CourseDetails = () => {
           ))}
         </ul>
       )}
-      <Link to={`/assignments`}>See Assignments</Link>
-
-      <Link to={`/courses/${course._id}/edit`}>Edit {course.title}</Link>
+    <Link to={`/courses/${course._id}/edit`}>Edit {course.title}</Link>
+    <button onClick={handleDelete}>Delete</button>
 
     </main>
   );
