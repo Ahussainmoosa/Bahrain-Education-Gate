@@ -46,7 +46,9 @@ const CourseDetails = () => {
           ))}
         </ul>
       )}
-    <Link to={`/courses/${course._id}/edit`}>Edit {course.title}</Link>
+      <Link to={`/assignments`}>See Assignments</Link>
+
+      <Link to={`/courses/${course._id}/edit`}>Edit {course.title}</Link>
 
     </main>
   );
