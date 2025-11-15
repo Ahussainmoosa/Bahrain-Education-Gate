@@ -39,7 +39,7 @@ const CreateCourse = () => {
       setMessage('Course created successfully!');
       setFormData({ title: '', description: '' });
 
-      navigate('/');
+      navigate('/courses');
     } catch (err) {
       console.error(err);
       setMessage('Error creating course');

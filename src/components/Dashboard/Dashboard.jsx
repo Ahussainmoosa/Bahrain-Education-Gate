@@ -47,7 +47,7 @@ const Dashboard = () => {
           ))}
         </ul>
       )}
-        <Link to='/new'>Creat New Course</Link>
+        <Link to='/courses/new'>Creat New Course</Link>
       </div>
       
     </main>
