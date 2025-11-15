@@ -1,4 +1,4 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/users`;
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/courses`;
 const  headers = {'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` }
 
 export const courseService = {
@@ -13,6 +13,8 @@ export const courseService = {
         if(data.err){
             throw new Error('Failed');
         };
+
+        return data;
     },
 
     //create new course
@@ -28,6 +30,8 @@ export const courseService = {
         if(data.err){
             throw new Error('Failed');
         };
+
+        return data;
     },
 
     //update course
@@ -42,10 +46,13 @@ export const courseService = {
         if(data.err){
             throw new Error('Failed');
         };
+
+        return data;
+        
     },
 
     async deleteCourse(id){
-        const res = await fetch (`${BASE_URL}/${id}`, {
+        const res = await fetch (`${import.meta.env.VITE_BACK_END_SERVER_URL}/${id}`, {
             method: 'DELETE',
             headers
         });
@@ -54,5 +61,8 @@ export const courseService = {
         if(data.err){
             throw new Error('Failed');
         };
+
+        return data;
+
     },
 };
