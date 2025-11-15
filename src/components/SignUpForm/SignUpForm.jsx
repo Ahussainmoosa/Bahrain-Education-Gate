@@ -20,7 +20,7 @@ const SignUpForm = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    passwordConf: '',
+    role: 'student',
   });
 
 

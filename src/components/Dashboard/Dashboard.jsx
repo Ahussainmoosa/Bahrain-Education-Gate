@@ -1,31 +1,55 @@
-// src/components/Dashboard/Dashboard.jsx
-
-import { useContext, useEffect } from 'react';
-import * as userService from '../../services/userService'
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
+  const [courses, setCourses] = useState([]);
 
-   useEffect(() => {
-    const fetchUsers = async () => {
+
+  useEffect(() => {
+    const fetchCourses = async () => {
       try {
-        const fetchedUsers = await userService.index();
-        console.log(fetchedUsers);
+        const token = localStorage.getItem("token");
+        const res = await fetch('http://localhost:3000/courses',{
+          headers: {'Content-Type': 'application/json','Authorization': `Bearer ${token}`,
+        }
+        });
+        if (!res.ok) throw new Error('Failed to fetch courses');
+        const data = await res.json();
+        if (Array.isArray(data)) setCourses(data);
+        else setCourses([]);
       } catch (err) {
-        console.log(err)
+        console.error(err);
+        setCourses([]);
       }
-    }
-    if (user) fetchUsers();
-  }, [user]);
+    };
+    fetchCourses();
+  }, []);
 
+  if (!user) return <p>Loading user...</p>;
 
   return (
     <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the users.
-      </p>
+      <div>
+        <h2>Welcome, {user.username}</h2>
+        <h1>Your Courses</h1>
+        {courses.length === 0 ? (
+        <p>No courses available!</p>
+      ) : (
+        <ul>
+          {courses.map(course => (
+            <li key={course._id}>
+              <Link to={`/courses/${course._id}`}>
+                <h2>{course.title} </h2>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+        <Link to='/new'>Creat New Course</Link>
+      </div>
+      
     </main>
   );
 };
