@@ -1,26 +1,25 @@
-import { Link } from "react-router";
+import { Link } from 'react-router';
 
-const AssignmentList = (props) => {
-  const { user } = useContext(UserContext);
-  const [assignments, setAssignments] = useState([]);
+const AssignmentList = ({ assignments = [], deleteAssignment }) => {
   return (
     <>
-      <h2>Assignment</h2>
-      {assignment.length === 0 ? (
+      <h2>Assignments</h2>
+
+      {assignments.length === 0 ? (
         <p>No assignments yet!</p>
       ) : (
         <ul>
-        {props.assignment.map((currentAssignment) => (
-          <li key={currentAssignment.name}>
-            <Link to={`/assignment/${currentAssignment._id}`}>
-            {currentAssignment.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+          {assignments.map((assignment) => (
+            <li key={assignment._id}>
+              <Link to={`/assignments/${assignment._id}`}>
+                {assignment.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
-    
-      <Link to='/assignments/new'>Creat New assignment</Link>
+
+      <Link to='/assignments/new'>Create New Assignment</Link>
     </>
   );
 };

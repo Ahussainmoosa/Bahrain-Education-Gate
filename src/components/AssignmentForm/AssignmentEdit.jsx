@@ -1,12 +1,23 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router';
 import { assignmentService } from '../../services/assignmentService';
 
-const initialState = { title: '', content: '' };
-
-const AssignmentForm = ({ addAssignment }) => {
-  const [formData, setFormData] = useState(initialState);
+const AssignmentEdit = ({ updateAssignment }) => {
+  const { id } = useParams();
+  const [formData, setFormData] = useState({ title: '', content: '' });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchAssignment = async () => {
+      try {
+        const data = await assignmentService.getAssignment(id);
+        setFormData({ title: data.title, content: data.content });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchAssignment();
+  }, [id]);
 
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.name]: target.value });
@@ -15,9 +26,8 @@ const AssignmentForm = ({ addAssignment }) => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-      const newAssignment = await assignmentService.createAssignment(formData);
-      addAssignment && addAssignment(newAssignment);
-      setFormData(initialState);
+      const updated = await assignmentService.updateAssignment(id, formData);
+      updateAssignment && updateAssignment(updated);
       navigate('/assignments');
     } catch (err) {
       console.error(err);
@@ -26,7 +36,7 @@ const AssignmentForm = ({ addAssignment }) => {
 
   return (
     <main>
-      <h2>New Assignment</h2>
+      <h2>Edit Assignment</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Assignment Title:</label>
         <input
@@ -43,10 +53,10 @@ const AssignmentForm = ({ addAssignment }) => {
           value={formData.content}
           onChange={handleChange}
         />
-        <button type="submit">Add Assignment</button>
+        <button type="submit">Update Assignment</button>
       </form>
     </main>
   );
 };
 
-export default AssignmentForm;
+export default AssignmentEdit;
