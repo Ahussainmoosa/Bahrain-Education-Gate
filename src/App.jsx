@@ -24,20 +24,17 @@ const App = () => {
         {
           user ?
           <>
-            <Route path='/' element={<Dashboard/>}/>
-            <Route path='/products' element={<h1>Producs</h1>}/>
-            <Route path='/favs' element={<h1>Favs</h1>}/>
-            <Route path='/profile' element={<h1>{user.username}</h1>}/>
-            <Route path='/orders' element={<h1>ORDERS</h1>}/>
+            <Route path='/courses' element={<Dashboard/>}/>
+            <Route path='/courses/new' element={<Course />} />
+            <Route path='/courses/:id' element={<CourseDetails />} />
+            <Route path='/courses/:courseId/edit' element={<CourseEdit />}/>
           </>
             :
             <Route path='/' element={<Landing/>}/>
         }
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
-        <Route path='/new' element={<Course />} />
-        <Route path='/courses/:id' element={<CourseDetails />} />
-        <Route path='/courses/:courseId/edit' element={<CourseEdit />}/>
+        
       </Routes>
     </>
   );

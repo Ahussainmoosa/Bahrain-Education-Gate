@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
 const Dashboard = () => {
@@ -47,7 +47,7 @@ const Dashboard = () => {
           ))}
         </ul>
       )}
-        <Link to='/new'>Creat New Course</Link>
+        <Link to='/courses/new'>Creat New Course</Link>
       </div>
       
     </main>
