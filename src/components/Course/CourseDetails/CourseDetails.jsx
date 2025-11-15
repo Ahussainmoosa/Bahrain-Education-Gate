@@ -11,7 +11,10 @@ const CourseDetails = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`http://localhost:3000/courses/${id}`, {
-          headers: {"Content-Type": "application/json","Authorization": `Bearer ${token}`,},
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) throw new Error("Failed to load course details");
