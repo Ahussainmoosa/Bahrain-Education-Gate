@@ -1,16 +1,28 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![logo](./assets/BHEduLogo.png)
+# Welcome to Bahrain Education Gate 
+Bahrain Education Gate is a secure platform for schools to manage courses, assignments, and student access. School admins can create and edit content, while students view and submit assignments linked to their courses. The app uses role-based access and JWT authentication to keep everything organized and protected
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
+- Deployed App <a>https://bahrain-education-gate.vercel.app/</a>
+- Trello for planning <a>https://trello.com/b/JEWNd0kK/group-project-3-ga</a>
+- Backend <a>https://github.com/Ahussainmoosa/Login-Auth-Backend</a>
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Technologies Used
+- JavaScript
+- EJS/Express
+- React
+- CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Next Steps
+- Add enroll students feature.
+- Improve CSS.
+- Gamification. 
+- Track assignment dates.
+- Admin Dashboard.
+
+
+

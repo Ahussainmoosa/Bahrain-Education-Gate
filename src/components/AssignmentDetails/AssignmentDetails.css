@@ -32,7 +32,7 @@ a:hover {
   text-decoration: underline;
 }
 
-button {
+/* button {
   background-color: white;
   color: white;
   border: none;
@@ -41,7 +41,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-}
+} */
 
 button:hover {
   background-color: lightskyblue;

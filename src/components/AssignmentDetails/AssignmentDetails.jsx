@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
-import { assignmentService } from '../../services/assignmentService';
+
+import{UserContext} from '../../contexts/UserContext';
 import './AssignmentDetails.css';
 
 
@@ -10,6 +11,7 @@ const AssignmentDetails = ({ deleteAssignment }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const { user } = useContext(UserContext);
   const token = localStorage.getItem('token');
 
   // Fetch the assignment details
@@ -67,29 +69,23 @@ const AssignmentDetails = ({ deleteAssignment }) => {
         </Link>
       </p>
       )}
-      <div style={{ marginTop: '1rem' }}>
-        <Link to={`/assignments/${id}/edit`}>
-          <button>Edit</button>
+      
+      {user?.role === 'school' && (
+        <>
+      
+        <Link to={`/assignments/${id}/edit`} className='btn'>
+        Edit
         </Link>
         <button
           onClick={handleDelete}
-          style={{
-            marginLeft: '0.5rem',
-            backgroundColor: 'red',
-            color: 'white',
-            cursor: 'pointer',
-            border: 'none',
-            padding: '5px 10px',
-          }}
+          className='btn'
         >
           Delete
         </button>
-      </div>
+       </>
+      )}
 
-      <Link to='/assignments' className="btn">
-
-        Back to assignments
-      </Link>
+      <Link to='/assignments' className="btn">Back to assignments</Link>
     </div>
   );
 };
