@@ -8,6 +8,7 @@ const AssignmentDetails = ({ deleteAssignment }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     const fetchAssignment = async () => {
       try {
         const data = await assignmentService.getAssignment(id);
@@ -22,7 +23,7 @@ const AssignmentDetails = ({ deleteAssignment }) => {
   if (!assignment) return <p>Loading...</p>;
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this assignment?')) return;
+   
     try {
       await assignmentService.deleteAssignment(id);
       deleteAssignment && deleteAssignment(id);
@@ -36,7 +37,14 @@ const AssignmentDetails = ({ deleteAssignment }) => {
     <div>
       <h2>{assignment.title}</h2>
       <p>{assignment.content}</p>
-
+      {assignment.course && (
+      <p>
+        <strong>Course:</strong>{' '}
+        <Link to={`/courses/${assignment.course._id}`}>
+          {assignment.course.title}
+        </Link>
+      </p>
+      )}
       <div style={{ marginTop: '1rem' }}>
         <Link to={`/assignments/${id}/edit`}>
           <button>Edit</button>
