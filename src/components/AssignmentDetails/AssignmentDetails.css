@@ -71,6 +71,7 @@ button:hover {
 
 .btn:hover {
   background-color: #005fa3;
+  text-decoration: none;
 }
 
 .btn:disabled {

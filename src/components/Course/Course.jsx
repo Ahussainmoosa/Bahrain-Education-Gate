@@ -2,7 +2,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
-import './CourseEdit.css';
+import './CourseEdit/CourseEdit.css';
 
 const CreateCourse = () => {
   const navigate = useNavigate();
