@@ -65,4 +65,14 @@ export const courseService = {
         return data;
         
     },
+
+    async enrollInCourse(courseId) {
+        const res = await fetch(`${BASE_URL}/${courseId}/enroll`, {
+            method: 'POST',
+            headers,
+        });
+        const data = await res.json();
+        if (!res.ok || data.err) throw new Error('Failed to enroll');
+        return data;
+    },
 };

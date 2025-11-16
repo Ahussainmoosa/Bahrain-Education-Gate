@@ -1,22 +1,19 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { courseService } from "../../../services/courseService";
+import { UserContext } from "../../../contexts/UserContext";
+import './CourseDetails.css';
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+  const [error, setError] = useState('');
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:3000/courses/${id}`, {
-          headers: {"Content-Type": "application/json","Authorization": `Bearer ${token}`,},
-        });
-
-        if (!res.ok) throw new Error("Failed to load course details");
-
-        const data = await res.json();
+        const data = await courseService.getCourse(id);
         setCourse(data);
       } catch (err) {
         console.error(err);
@@ -26,26 +23,34 @@ const CourseDetails = () => {
     fetchCourse();
   }, [id]);
 
+  const handleDelete = async (event) => {
+    try {
+      event.preventDefault();
+      await courseService.deleteCourse(id);
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      setError('Failed to delete course');
+    }
+  };
+
   if (!course) return <p>Loading course details...</p>;
 
   return (
     <main>
       <h1>{course.title}</h1>
       <p>{course.description}</p>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <h3>Enrolled Students:</h3>
-      {course.enrolledStudents.length === 0 ? (
-        <p>No students enrolled yet.</p>
-      ) : (
-        <ul>
-          {course.enrolledStudents.map(student => (
-            <li key={student._id}>{student.username}</li>
-          ))}
-        </ul>
+      {user.role === 'school' && (
+        <>
+          <Link to={`/courses/${course._id}/edit`} className="btn">Edit {course.title}</Link>
+          <button onClick={handleDelete} className="btn">Delete</button>
+          <Link to={`/courses/${course._id}/assignments/new`} className="btn">Create Assignment</Link>
+        </>
       )}
-    <Link to={`/courses/${course._id}/edit`}>Edit {course.title}</Link>
-    <br></br>
-    <Link to={`/assignments`}>Course Assignments</Link> 
+
+      <Link to={`/courses/${course._id}/assignments`} className="btn">Course Assignments</Link>
     </main>
   );
 };

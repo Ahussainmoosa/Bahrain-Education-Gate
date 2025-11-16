@@ -2,6 +2,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
+import './CourseEdit/CourseEdit.css';
 
 const CreateCourse = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const CreateCourse = () => {
           />
         </div>
 
-        <button type="submit">Create Course</button>
+        <button type="submit" className="btn">Create Course</button>
       </form>
 
       {message && <p>{message}</p>}

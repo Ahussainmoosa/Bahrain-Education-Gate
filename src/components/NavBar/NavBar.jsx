@@ -29,13 +29,13 @@ const NavBar = () => {
         <ul>
           <li>Welcome, {user.username}</li>
           <li><Link to='/courses'>Home</Link></li>
-          <li><Link to='/new'>Add Course</Link></li>
+          <li><Link to='/assignments'>Assignments</Link></li>
+          <li><Link to='/sign-up'>Create Account</Link></li>
           <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
         </ul>
       ) : (
         <ul>
           <li><Link to='/'>Home</Link></li>
-          <li><Link to='/sign-up'>Sign Up</Link></li>
           <li><Link to='/sign-in'>Sign In</Link></li>
         </ul>
       )}

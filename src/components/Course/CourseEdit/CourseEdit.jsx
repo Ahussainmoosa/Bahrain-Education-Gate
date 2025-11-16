@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
+import './CourseEdit.css';
 
 const COURSE_API_BASE_URL = 'http://localhost:3000/courses';
 const USER_API_BASE_URL = 'http://localhost:3000/users';
@@ -197,13 +198,40 @@ function CourseEdit() {
         </div>
 
         <div>
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={courseData.description || ''}
-            onChange={handleChange}
-            required
-          />
+            <h2>Edit Course: {courseData.title}</h2>
+            
+            {submitSuccess && (
+                <div>Course updated successfully! Redirecting...</div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Course Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={courseData.title || ''}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label>Description</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        value={courseData.description || ''}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                
+                <button type="submit" className="btn" disabled={isSubmitting || loading}>
+                    {isSubmitting ? 'Saving...' : 'Save Changes'}
+                </button>
+            </form>
         </div>
 
         <div>

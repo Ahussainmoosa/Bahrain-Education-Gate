@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
+import { assignmentService } from '../../services/assignmentService';
+import './AssignmentDetails.css';
+
 
 const AssignmentDetails = ({ deleteAssignment }) => {
   const { id } = useParams();
@@ -11,6 +14,7 @@ const AssignmentDetails = ({ deleteAssignment }) => {
 
   // Fetch the assignment details
   useEffect(() => {
+    
     const fetchAssignment = async () => {
       try {
         const res = await fetch(`http://localhost:3000/assignments/${id}`);
@@ -29,8 +33,7 @@ const AssignmentDetails = ({ deleteAssignment }) => {
   if (!assignment) return <p>Loading...</p>;
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this assignment?')) return;
-
+   
     try {
       const res = await fetch(`http://localhost:3000/assignments/${id}`, {
         method: 'DELETE',
@@ -56,7 +59,14 @@ const AssignmentDetails = ({ deleteAssignment }) => {
     <div>
       <h2>{assignment.title}</h2>
       <p>{assignment.content}</p>
-
+      {assignment.course && (
+      <p>
+        <strong>Course:</strong>{' '}
+        <Link to={`/courses/${assignment.course._id}`}>
+          {assignment.course.title}
+        </Link>
+      </p>
+      )}
       <div style={{ marginTop: '1rem' }}>
         <Link to={`/assignments/${id}/edit`}>
           <button>Edit</button>
@@ -76,7 +86,8 @@ const AssignmentDetails = ({ deleteAssignment }) => {
         </button>
       </div>
 
-      <Link to="/assignments" >
+      <Link to='/assignments' className="btn">
+
         Back to assignments
       </Link>
     </div>

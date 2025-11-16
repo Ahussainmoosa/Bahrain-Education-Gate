@@ -15,16 +15,23 @@ const SignUpForm = () => {
   //
   // Destructure the object returned by the useContext hook for easy access
   // to the data we added to the context with familiar names.
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+
+  if (!user || user.role !== 'school') {
+    return <p style={{ color: 'red' }}>Access denied. Only school admins can create accounts.</p>;
+  }
+
+
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    passwordConf: '',
     role: 'student',
   });
 
 
-  const { username, password, passwordConf } = formData;
+  const { username, password, passwordConf, role } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -52,14 +59,14 @@ const SignUpForm = () => {
 
   return (
     <main>
-      <h1>Sign Up</h1>
+      <h1>Create an Account</h1>
       <p>{message}</p>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor='username'>Username:</label>
           <input
             type='text'
-            id='name'
+            id='username'
             value={username}
             name='username'
             onChange={handleChange}
@@ -88,9 +95,24 @@ const SignUpForm = () => {
             required
           />
         </div>
+
+        <div>
+          <label htmlFor='role'>Role:</label>
+          <select
+            id='role'
+            name='role'
+            value={role}
+            onChange={handleChange}
+            >
+            <option value='student'>Student</option>
+            <option value='school'>School</option>
+          </select>
+
+        </div>
+
         <div>
           <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>

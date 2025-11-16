@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
+import { assignmentService } from '../../services/assignmentService';
+import './AssignmentEdit.css';
 
 const AssignmentEdit = ({ updateAssignment }) => {
   const { id } = useParams();
@@ -85,10 +87,7 @@ const AssignmentEdit = ({ updateAssignment }) => {
           onChange={handleChange}
           required
         />
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Updating...' : 'Update Assignment'}
-        </button>
+        <button type="submit" className="btn">Update Assignment</button>
       </form>
     </main>
   );

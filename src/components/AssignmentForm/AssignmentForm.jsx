@@ -1,13 +1,23 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router';
+
+import { assignmentService } from '../../services/assignmentService';
+import { AssignmentsContext } from '../../contexts/AssignmentContext';
+import './AssignmentForm.css';
 
 const initialState = { title: '', content: '' };
 
-const AssignmentForm = ({ addAssignment }) => {
+const AssignmentForm = () => {
+  const {courseId} = useParams();
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { addAssignment } = useContext(AssignmentsContext);
+
+  if (!courseId) {
+    return <p>Error: No course selected. Please navigate from a course page.</p>;
+  }
 
   const token = localStorage.getItem('token');
 
@@ -21,24 +31,10 @@ const AssignmentForm = ({ addAssignment }) => {
     setError(null);
 
     try {
-      const res = await fetch('http://localhost:3000/assignments/new', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        const errorBody = await res.json().catch(() => ({}));
-        throw new Error(errorBody.err || 'Failed to create assignment');
-      }
-
-      const newAssignment = await res.json();
-      addAssignment && addAssignment(newAssignment);
+      const newAssignment = await assignmentService.createAssignment({...formData, course: courseId,});
+      addAssignment(newAssignment);
       setFormData(initialState);
-      navigate('/assignments');
+      navigate(`/courses/${courseId}`);
     } catch (err) {
       console.error(err);
       setError(err.message || 'Failed to create assignment');
@@ -72,10 +68,7 @@ const AssignmentForm = ({ addAssignment }) => {
           onChange={handleChange}
           required
         />
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Adding...' : 'Add Assignment'}
-        </button>
+        <button type="submit" className="btn">Add Assignment</button>
       </form>
     </main>
   );

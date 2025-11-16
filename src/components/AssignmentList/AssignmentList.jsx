@@ -1,54 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from 'react-router-dom';
+import{ useContext } from 'react';
 
-const ASSIGN_API_URL = "http://localhost:3000/assignments";
+import { AssignmentsContext } from '../../contexts/AssignmentContext';
+import './AssignmentList.css';
 
-function AssignmentList() {
-  const [assignments, setAssignments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const AssignmentList = () => {
+  const {assignments} = useContext(AssignmentsContext);
+  const {courseId} = useParams();
 
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    const fetchAssignments = async () => {
-      try {
-        const res = await fetch(ASSIGN_API_URL, {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch assignments");
-        }
-
-        const data = await res.json();
-        setAssignments(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAssignments();
-  }, [token]);
-
-  if (loading) return <p>Loading assignments...</p>;
-  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+  const filteredAssignments = courseId
+  ? assignments.filter(one => one.course === courseId || one.course?._id === courseId)
+  :assignments;
 
   return (
     <>
       <h2>Assignments</h2>
 
-      {assignments.length === 0 ? (
+      {filteredAssignments.length === 0 ? (
         <p>No assignments yet!</p>
       ) : (
         <ul>
-          {assignments.map((assignment) => (
+          {filteredAssignments.map((assignment) => (
             <li key={assignment._id}>
-              <Link to={`/assignments/${assignment._id}`}>
+              <Link to={`/assignments/${assignment._id}`} className="btn">
                 {assignment.title}
               </Link>
             </li>
@@ -56,7 +30,7 @@ function AssignmentList() {
         </ul>
       )}
 
-      <Link to="/assignments/new">Create New Assignment</Link>
+      
     </>
   );
 }

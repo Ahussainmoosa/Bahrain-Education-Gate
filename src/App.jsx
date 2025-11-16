@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import { Routes, Route } from 'react-router'; // Import React Router
+import { Routes, Route } from 'react-router-dom'; 
 
 import NavBar from './components/NavBar/NavBar';
 import SignUpForm from './components/SignUpForm/SignUpForm';
@@ -17,6 +17,8 @@ import AssignmentForm from './components/AssignmentForm/AssignmentForm';
 import AssignmentDetails from './components/AssignmentDetails/AssignmentDetails';
 import AssignmentEdit from './components/AssignmentForm/AssignmentEdit';
 
+import './App.css';
+
 const App = () => {
   const { user } = useContext(UserContext);
 
@@ -28,10 +30,14 @@ const App = () => {
         {
           user ?
           <>
+            <Route path='/' element={<Dashboard/>}/>
+            <Route path='/sign-up' element={<SignUpForm />} />
             <Route path='/courses' element={<Dashboard/>}/>
             <Route path='/courses/new' element={<Course />} />
             <Route path='/courses/:id' element={<CourseDetails />} />
             <Route path='/courses/:courseId/edit' element={<CourseEdit />}/>
+            <Route path='/courses/:courseId/assignments' element={<AssignmentList />} />
+            <Route path='/courses/:courseId/assignments/new' element={<AssignmentForm />} /> 
             <Route path='/assignments' element={<AssignmentList/>}/>
             <Route path='/assignments/new' element={<AssignmentForm />} />
             <Route path='/assignments/:id' element={<AssignmentDetails />} />
@@ -40,7 +46,7 @@ const App = () => {
             :
             <Route path='/' element={<Landing/>}/>
         }
-        <Route path='/sign-up' element={<SignUpForm />} />
+        
         <Route path='/sign-in' element={<SignInForm />} />
         
       </Routes>
