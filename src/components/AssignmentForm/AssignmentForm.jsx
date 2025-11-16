@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+
 import { assignmentService } from '../../services/assignmentService';
+import { AssignmentsContext } from '../../contexts/AssignmentContext';
 
 const initialState = { title: '', content: '' };
 
-const AssignmentForm = ({ addAssignment }) => {
+const AssignmentForm = () => {
   const [formData, setFormData] = useState(initialState);
   const navigate = useNavigate();
+  const { addAssignment } = useContext(AssignmentsContext);
 
   const handleChange = ({ target }) => {
     setFormData({ ...formData, [target.name]: target.value });
@@ -16,7 +19,7 @@ const AssignmentForm = ({ addAssignment }) => {
     evt.preventDefault();
     try {
       const newAssignment = await assignmentService.createAssignment(formData);
-      addAssignment && addAssignment(newAssignment);
+      addAssignment(newAssignment);
       setFormData(initialState);
       navigate('/assignments');
     } catch (err) {

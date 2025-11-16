@@ -1,6 +1,12 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import{ useContext } from 'react';
 
-const AssignmentList = ({ assignments = [], deleteAssignment }) => {
+import { AssignmentsContext } from '../../contexts/AssignmentContext';
+
+
+const AssignmentList = () => {
+  const {assignments} = useContext(AssignmentsContext);
+  
   return (
     <>
       <h2>Assignments</h2>

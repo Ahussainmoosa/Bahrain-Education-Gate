@@ -50,8 +50,8 @@ const CourseDetails = () => {
         <p>No students enrolled yet.</p>
       ) : (
         <ul>
-          {course.enrolledStudents.map(student => (
-            <li key={student._id}>{student.username}</li>
+          {course.enrolledStudents.map((student, index) => (
+            <li key={student._id || index}>{student.username}</li>
           ))}
         </ul>
       )}
