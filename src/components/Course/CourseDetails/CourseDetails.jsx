@@ -6,7 +6,6 @@ import './CourseDetails.css';
 
 const CourseDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [error, setError] = useState('');
   const { user } = useContext(UserContext);
@@ -18,7 +17,6 @@ const CourseDetails = () => {
         setCourse(data);
       } catch (err) {
         console.error(err);
-        setError('Failed to load course');
       }
     };
 
