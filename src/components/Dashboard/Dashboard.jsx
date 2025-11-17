@@ -47,7 +47,12 @@ const Dashboard = () => {
           ))}
         </ul>
       )}
+      
+      {user.role === 'school' && (
         <Link to='/courses/new'>Creat New Course</Link>
+
+      )}
+
       </div>
       
     </main>
